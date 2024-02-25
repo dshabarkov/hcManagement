@@ -1,0 +1,39 @@
+﻿@model HumanCapitalManagement.Models.LoginModel
+
+@{
+    Layout = null;
+}
+
+<title>@ViewData["Title"] - HumanCapitalManagement</title>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/HumanCapitalManagement.styles.css" asp-append-version="true" />
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://malsup.github.io/jquery.form.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+<div class="container">
+    <div class="text-center">
+
+        <div class="row">
+            <h5>Login</h5>
+        </div>
+        <div class="row">
+            <form id="loginForm">
+                <label asp-for="Username">Username:</label><br>
+                <input type="text" asp-for="Username"><br>
+                <label asp-for="Password">Password:</label><br>
+                <input type="text" asp-for="Password">
+            </form>
+        </div>
+
+        <div class="row">
+            <button type="button" class="btn btn-primary" onclick="login()">Login</button>
+            <a type="button" class="btn btn-primary" asp-area="" asp-controller="Login" asp-action="Register">Register</a>
+        </div>
+
+    </div>
+</div>

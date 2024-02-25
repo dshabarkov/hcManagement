@@ -1,0 +1,43 @@
+﻿@model List<HumanCapitalManagement.Models.PersonModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container">
+    <div class="text-center">
+        <div class="row">
+            <div class="col-sm-6">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th>Salary</th>
+                            <th>Department</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FirstName</td>
+                                <td>@item.LastName</td>
+                                <td>@item.Salary</td>
+                                <td>@item.Department</td>
+                                <td>
+                                    <button type="button" onclick="openAddEditPersonModal(@item.Id)">Edit</button>
+                                    <button type="button" onclick="deleteSelectedPerson(@item.Id)">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <button type="button" onclick="openAddEditPersonModal(0)">Add New</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addEditModalContainer"></div>

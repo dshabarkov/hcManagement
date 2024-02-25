@@ -1,0 +1,146 @@
+name: dockercompose8436067157760548333
+services:
+  dataapi:
+    build:
+      context: D:\Mitko Interviews\HumanCapitalManagement
+      dockerfile: DataAPI/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTPS_PORT: "9000"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: mypass123
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: dataapi
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        protocol: tcp
+      - mode: ingress
+        target: 80
+        published: "9003"
+        protocol: tcp
+      - mode: ingress
+        target: 443
+        protocol: tcp
+      - mode: ingress
+        target: 443
+        published: "9002"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: D:\Mitko Interviews\HumanCapitalManagement\Api\https\aspnetapp.pfx
+        target: /https/aspnetapp.pfx
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Asus\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Asus\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+  humancapitalmanagement:
+    build:
+      context: D:\Mitko Interviews\HumanCapitalManagement
+      dockerfile: HumanCapitalManagement/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTPS_PORT: "9000"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: mypass123
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: humancapitalmanagement
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        protocol: tcp
+      - mode: ingress
+        target: 80
+        published: "9001"
+        protocol: tcp
+      - mode: ingress
+        target: 443
+        protocol: tcp
+      - mode: ingress
+        target: 443
+        published: "9000"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: D:\Mitko Interviews\HumanCapitalManagement\HumanCapitalManagement\https\aspnetapp.pfx
+        target: /https/aspnetapp.pfx
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Asus\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Asus\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+  loginapi:
+    build:
+      context: D:\Mitko Interviews\HumanCapitalManagement
+      dockerfile: LoginAPI/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTPS_PORT: "9000"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: mypass123
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: loginapi
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        protocol: tcp
+      - mode: ingress
+        target: 80
+        published: "9001"
+        protocol: tcp
+      - mode: ingress
+        target: 443
+        protocol: tcp
+      - mode: ingress
+        target: 443
+        published: "9000"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: D:\Mitko Interviews\HumanCapitalManagement\Api\https\aspnetapp.pfx
+        target: /https/aspnetapp.pfx
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Asus\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Asus\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+networks:
+  default:
+    name: dockercompose8436067157760548333_default

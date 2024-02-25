@@ -1,0 +1,86 @@
+version: '3.4'
+
+services:
+  dataapi_db:
+    image: postgres:latest
+    container_name: dataapi_db
+    environment: 
+      - POSTGRES_DB=HcmData
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - dataapi_data:/var/lib/postgresql/data
+      - ./dataapi_db-init:/docker-entrypoint-initdb.d/
+      
+  loginapi_db:
+    image: postgres:latest
+    container_name: loginapi_db
+    environment: 
+      - POSTGRES_DB=Authentication
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+    ports:
+      - "5433:5432"
+    restart: always
+    volumes:
+      - loginapi_data:/var/lib/postgresql/data
+      - ./loginapi_db-init:/docker-entrypoint-initdb.d/
+
+  humancapitalmanagement:
+    image: ${DOCKER_REGISTRY-}humancapitalmanagement
+    build:
+      context: .
+      dockerfile: HumanCapitalManagement/Dockerfile
+    ports:
+      - "9000:443"
+      - "9001:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=9000
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=mypass123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ./HumanCapitalManagement/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro 
+
+  dataapi:
+    image: ${DOCKER_REGISTRY-}dataapi
+    build:
+      context: .
+      dockerfile: DataAPI/Dockerfile
+    ports:
+      - "9002:443"
+      - "9003:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=9000
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=mypass123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ./DataAPI/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+
+
+  loginapi:
+    image: ${DOCKER_REGISTRY-}loginapi
+    build:
+      context: .
+      dockerfile: LoginAPI/Dockerfile
+    ports:
+      - "9004:443"
+      - "9005:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=9000
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=mypass123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ./LoginAPI/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+
+volumes:
+  dataapi_data:
+  loginapi_data:
